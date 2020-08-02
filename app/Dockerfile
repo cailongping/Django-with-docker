@@ -11,10 +11,15 @@ ENV PYTHONDONTWRITEBYTECODE 1
 #防止python缓冲stdout和stderr
 ENV PYTHONUNBUFFERED 1
 
+#安装psycopg2依赖项
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories \
+    && apk update \
+    && apk add postgresql-dev gcc python3-dev musl-dev
+
 #安装依赖
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
-RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
 
 #复制项目(两点之间有空格)
 COPY . .
